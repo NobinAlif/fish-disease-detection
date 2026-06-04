@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  static const String _baseUrl = 'http://127.0.0.1:8000';
+  static const String _baseUrl = 'https://fish-disease-detection-0k3w.onrender.com';
 
   static Future<Map<String, dynamic>> predictDisease(File imageFile) async {
     final uri = Uri.parse('$_baseUrl/predict');
