@@ -1,0 +1,58 @@
+{
+  "Bacterial Red disease": {
+    "description": "A bacterial infection caused by Aeromonas or Pseudomonas species, resulting in red lesions and hemorrhaging on the skin.",
+    "severity": "High",
+    "symptoms": ["Red patches or lesions on skin", "Hemorrhaging at fin base", "Ulcers on body", "Lethargy and loss of appetite"],
+    "treatment": "Isolate affected fish immediately. Use antibiotics such as oxytetracycline or amoxicillin in the water. Perform 30% water change daily. Maintain water temperature between 24-26°C.",
+    "prevention": "Maintain good water quality, avoid overcrowding, quarantine new fish for 2 weeks before introducing to the tank.",
+    "urgency": "Treat within 24-48 hours to prevent spread."
+  },
+  "Bacterial diseases - Aeromoniasis": {
+    "description": "Infection caused by Aeromonas hydrophila bacteria, commonly known as 'Motile Aeromonas Septicemia' or MAS.",
+    "severity": "High",
+    "symptoms": ["Skin ulcers and lesions", "Swollen abdomen (dropsy)", "Protruding scales (pinecone appearance)", "Bloody discharge"],
+    "treatment": "Administer antibiotics (enrofloxacin or florfenicol) as directed by a vet. Add aquarium salt (1 tsp per gallon). Improve water filtration and perform frequent water changes.",
+    "prevention": "Reduce stress factors, maintain optimal water parameters (pH 7.0-7.5, ammonia 0 ppm), avoid physical injuries to fish.",
+    "urgency": "Immediate treatment required — can be fatal within days."
+  },
+  "Bacterial gill disease": {
+    "description": "Bacterial infection affecting the gills, caused by Flavobacterium branchiophilum, leading to respiratory distress.",
+    "severity": "Moderate",
+    "symptoms": ["Rapid gill movement (gasping)", "Fish near water surface", "Pale or brown discolored gills", "Mucus accumulation on gills"],
+    "treatment": "Use potassium permanganate bath (2 mg/L for 1 hour). Apply chloramine-T treatment. Increase aeration in the tank. Consult a vet for antibiotic prescription if severe.",
+    "prevention": "Ensure adequate oxygen levels, avoid overcrowding, maintain clean filters, and perform regular water testing.",
+    "urgency": "Treat within 48 hours to prevent mass mortality."
+  },
+  "Fungal diseases Saprolegniasis": {
+    "description": "Fungal infection caused by Saprolegnia species, appearing as white or gray cotton-like growth on the fish body.",
+    "severity": "Moderate",
+    "symptoms": ["White or gray fluffy patches on skin", "Cotton-like growth around eyes or mouth", "Damaged scales", "Loss of appetite"],
+    "treatment": "Use antifungal treatment such as malachite green (0.1 mg/L) or salt baths (3 g/L for 10 minutes). Remove infected fish to a quarantine tank. Improve water temperature to 24°C.",
+    "prevention": "Maintain water temperature above 18°C, treat any wounds or injuries promptly, avoid sharp objects in the tank.",
+    "urgency": "Begin treatment within 72 hours to prevent secondary infections."
+  },
+  "Healthy Fish": {
+    "description": "The fish appears healthy with no signs of disease.",
+    "severity": "None",
+    "symptoms": ["No symptoms detected"],
+    "treatment": "No treatment required. Continue regular maintenance.",
+    "prevention": "Maintain regular feeding schedule, perform weekly 20% water changes, monitor water parameters (pH, ammonia, nitrite, temperature) weekly.",
+    "urgency": "No action required. Schedule routine checkup in 30 days."
+  },
+  "Parasitic diseases": {
+    "description": "Infections caused by external parasites such as Ichthyophthirius (Ich/White Spot), Dactylogyrus (flukes), or Argulus (fish lice).",
+    "severity": "Moderate",
+    "symptoms": ["White spots on skin or fins (Ich)", "Scratching against objects (flashing)", "Visible parasites on body", "Clamped fins, lethargy"],
+    "treatment": "Raise water temperature to 30°C to speed up parasite life cycle. Use formalin or copper-based treatments as directed. For Ich: treat with malachite green + formalin combo for 7-10 days.",
+    "prevention": "Quarantine all new fish for 2 weeks, sterilize equipment, avoid introducing wild-caught fish without inspection.",
+    "urgency": "Treat promptly — parasites spread rapidly to all tank inhabitants."
+  },
+  "Viral diseases White tail disease": {
+    "description": "Caused by Macrobrachium rosenbergii nodavirus (MrNV), primarily affecting freshwater prawns and some fish, causing white discoloration of the tail.",
+    "severity": "High",
+    "symptoms": ["White discoloration of tail and hind body", "Lethargy and swimming near surface", "Loss of balance", "Necrosis of tail muscle"],
+    "treatment": "No specific antiviral treatment available. Isolate and remove severely affected fish. Improve water quality and reduce stress. Boost immunity with vitamin C-enriched feed.",
+    "prevention": "Source fish/prawns from certified disease-free hatcheries. Disinfect water with UV sterilizer. Avoid mixing species from different sources.",
+    "urgency": "Isolate immediately — viral diseases can wipe out entire stock."
+  }
+}
