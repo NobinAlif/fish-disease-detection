@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import '../services/api_service.dart';
 import 'result_screen.dart';
 
@@ -15,6 +16,12 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final ImagePicker _picker = ImagePicker();
   bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    FlutterNativeSplash.remove();
+  }
 
   Future<void> _pickAndAnalyze(ImageSource source) async {
     final XFile? picked = await _picker.pickImage(
