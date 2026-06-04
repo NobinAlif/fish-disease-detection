@@ -19,11 +19,8 @@ venv/
 # Dataset (too large for GitHub)
 backend/dataset/
 
-# Trained model (too large for GitHub)
-backend/model/*.h5
-
-# Keep class_labels.json
-!backend/model/class_labels.json
+# Trained model files (included — 13MB, within GitHub limits)
+# backend/model/*.h5
 
 # Flutter
 mobile/.dart_tool/
