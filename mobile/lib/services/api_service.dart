@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 
 class ApiService {
   static const String _baseUrl = 'https://fish-disease-detection-0k3w.onrender.com';
@@ -8,7 +9,11 @@ class ApiService {
   static Future<Map<String, dynamic>> predictDisease(File imageFile) async {
     final uri = Uri.parse('$_baseUrl/predict');
     final request = http.MultipartRequest('POST', uri);
-    request.files.add(await http.MultipartFile.fromPath('file', imageFile.path));
+    request.files.add(await http.MultipartFile.fromPath(
+      'file',
+      imageFile.path,
+      contentType: MediaType('image', 'jpeg'),
+    ));
 
     final streamedResponse = await request.send().timeout(
       const Duration(seconds: 90),
