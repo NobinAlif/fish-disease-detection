@@ -57,8 +57,9 @@ def list_diseases():
 
 @app.post("/predict", response_model=PredictionResponse)
 async def predict_disease(file: UploadFile = File(...)):
-    if file.content_type not in ("image/jpeg", "image/png", "image/jpg", "image/webp"):
-        raise HTTPException(status_code=400, detail="Only JPEG/PNG images are supported.")
+    allowed = ("image/jpeg", "image/png", "image/jpg", "image/webp", "image/heic", "image/heif")
+    if file.content_type not in allowed:
+        raise HTTPException(status_code=400, detail=f"Unsupported format: {file.content_type}. Use JPEG or PNG.")
 
     image_bytes = await file.read()
     if len(image_bytes) > 10 * 1024 * 1024:
