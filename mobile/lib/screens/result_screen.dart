@@ -8,24 +8,24 @@ class ResultScreen extends StatelessWidget {
   const ResultScreen(
       {super.key, required this.imagePath, required this.result});
 
-  bool get _isHealthy => result['severity'] == 'None';
-  bool get _isUnknown => result['severity'] == 'Unknown';
+  bool get _isHealthy => result['disease'] == 'Healthy Fish';
+  bool get _isConfident => result['is_confident'] == true;
 
   Color get _statusColor {
+    if (!_isConfident) return const Color(0xFFF59E0B);
     if (_isHealthy) return const Color(0xFF10B981);
-    if (_isUnknown) return const Color(0xFF6B7280);
     return const Color(0xFFEF4444);
   }
 
   String get _statusLabel {
+    if (!_isConfident) return 'Possible: ${result['disease']}';
     if (_isHealthy) return 'Healthy Fish';
-    if (_isUnknown) return 'Not Sure';
     return 'Disease Found';
   }
 
   IconData get _statusIcon {
+    if (!_isConfident) return Icons.help_rounded;
     if (_isHealthy) return Icons.check_circle_rounded;
-    if (_isUnknown) return Icons.help_rounded;
     return Icons.warning_rounded;
   }
 
@@ -100,13 +100,24 @@ class ResultScreen extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                                 color: _statusColor),
                           ),
-                          if (!_isHealthy && !_isUnknown) ...[
+                          if (_isConfident && !_isHealthy) ...[
                             const SizedBox(height: 4),
                             Text(
                               disease,
                               textAlign: TextAlign.center,
                               style: const TextStyle(
                                   fontSize: 16,
+                                  color: Color(0xFF475569),
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ],
+                          if (!_isConfident) ...[
+                            const SizedBox(height: 4),
+                            Text(
+                              '${result['confidence']}% confidence — not fully certain, use as a guide',
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                  fontSize: 13,
                                   color: Color(0xFF475569),
                                   fontWeight: FontWeight.w500),
                             ),

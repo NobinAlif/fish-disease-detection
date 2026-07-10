@@ -26,6 +26,7 @@ app.add_middleware(
 class PredictionResponse(BaseModel):
     disease: str
     confidence: float
+    is_confident: bool
     severity: str
     description: str
     symptoms: list[str]
@@ -66,23 +67,12 @@ async def predict_disease(file: UploadFile = File(...)):
     result = predict(image_bytes)
     label      = result["label"]
     confidence = result["confidence"]
-
-    if confidence < CONFIDENCE_THRESHOLD:
-        label = "Unknown"
-        info  = {
-            "severity":    "Unknown",
-            "description": "The image could not be confidently identified. Please use a clearer, well-lit photo of the fish.",
-            "symptoms":    [],
-            "treatment":   "Consult a fish health specialist or veterinarian for a proper diagnosis.",
-            "prevention":  "Ensure photos are taken in good lighting, focused on the affected area.",
-            "urgency":     "Monitor the fish closely and consult an expert.",
-        }
-    else:
-        info = DISEASE_INFO.get(label, {})
+    info       = DISEASE_INFO.get(label, {})
 
     return PredictionResponse(
         disease=label,
         confidence=round(confidence * 100, 2),
+        is_confident=confidence >= CONFIDENCE_THRESHOLD,
         severity=info.get("severity", "Unknown"),
         description=info.get("description", ""),
         symptoms=info.get("symptoms", []),
