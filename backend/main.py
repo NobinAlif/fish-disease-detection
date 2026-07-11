@@ -27,6 +27,7 @@ class PredictionResponse(BaseModel):
     disease: str
     confidence: float
     is_confident: bool
+    is_fish: bool
     severity: str
     description: str
     symptoms: list[str]
@@ -67,17 +68,35 @@ async def predict_disease(file: UploadFile = File(...)):
     result = predict(image_bytes)
     label      = result["label"]
     confidence = result["confidence"]
-    info       = DISEASE_INFO.get(label, {})
+    is_fish    = result["is_fish"]
+    all_scores = {k: round(v * 100, 2) for k, v in result["all_scores"].items()}
 
+    if not is_fish:
+        return PredictionResponse(
+            disease="Not a Fish",
+            confidence=round(confidence * 100, 2),
+            is_confident=False,
+            is_fish=False,
+            severity="",
+            description="This image doesn't appear to contain a fish.",
+            symptoms=[],
+            treatment="",
+            prevention="",
+            urgency="",
+            all_scores=all_scores,
+        )
+
+    info = DISEASE_INFO.get(label, {})
     return PredictionResponse(
         disease=label,
         confidence=round(confidence * 100, 2),
         is_confident=confidence >= CONFIDENCE_THRESHOLD,
+        is_fish=True,
         severity=info.get("severity", "Unknown"),
         description=info.get("description", ""),
         symptoms=info.get("symptoms", []),
         treatment=info.get("treatment", ""),
         prevention=info.get("prevention", ""),
         urgency=info.get("urgency", ""),
-        all_scores={k: round(v * 100, 2) for k, v in result["all_scores"].items()},
+        all_scores=all_scores,
     )

@@ -14,6 +14,7 @@ class ResultScreen extends StatelessWidget {
   String get _diseaseKey => result['disease'] as String;
   bool get _isHealthy => _diseaseKey == 'Healthy Fish';
   bool get _isConfident => result['is_confident'] == true;
+  bool get _isFish => result['is_fish'] != false;
   Map<String, dynamic>? get _bn => diseaseInfoBn[_diseaseKey];
 
   String _localizedName(bool isBn) {
@@ -34,12 +35,14 @@ class ResultScreen extends StatelessWidget {
   }
 
   Color get _statusColor {
+    if (!_isFish) return const Color(0xFF64748B);
     if (!_isConfident) return const Color(0xFFF59E0B);
     if (_isHealthy) return const Color(0xFF10B981);
     return const Color(0xFFEF4444);
   }
 
   String _statusLabel(bool isBn) {
+    if (!_isFish) return S.of('not_fish_title', isBn ? AppLanguage.bn : AppLanguage.en);
     if (!_isConfident) {
       return '${S.of('possible', isBn ? AppLanguage.bn : AppLanguage.en)}: ${_localizedName(isBn)}';
     }
@@ -48,6 +51,7 @@ class ResultScreen extends StatelessWidget {
   }
 
   IconData get _statusIcon {
+    if (!_isFish) return Icons.image_not_supported_rounded;
     if (!_isConfident) return Icons.help_rounded;
     if (_isHealthy) return Icons.check_circle_rounded;
     return Icons.warning_rounded;
@@ -131,7 +135,7 @@ class ResultScreen extends StatelessWidget {
                                     fontWeight: FontWeight.bold,
                                     color: _statusColor),
                               ),
-                              if (_isConfident && !_isHealthy) ...[
+                              if (_isFish && _isConfident && !_isHealthy) ...[
                                 const SizedBox(height: 4),
                                 Text(
                                   disease,
@@ -142,7 +146,7 @@ class ResultScreen extends StatelessWidget {
                                       fontWeight: FontWeight.w500),
                                 ),
                               ],
-                              if (!_isConfident) ...[
+                              if (_isFish && !_isConfident) ...[
                                 const SizedBox(height: 4),
                                 Text(
                                   '${result['confidence']}% ${S.of('confidence_note', lang)}',
@@ -162,11 +166,13 @@ class ResultScreen extends StatelessWidget {
                         _buildCard(
                           emoji: '📋',
                           title: S.of('what_it_means', lang),
-                          body: _localizedField(isBn, 'description'),
+                          body: _isFish
+                              ? _localizedField(isBn, 'description')
+                              : S.of('not_fish_message', lang),
                         ),
 
                         // Symptoms (only if sick)
-                        if (!_isHealthy && symptoms.isNotEmpty) ...[
+                        if (_isFish && !_isHealthy && symptoms.isNotEmpty) ...[
                           const SizedBox(height: 14),
                           _buildListCard(
                             emoji: '🔍',
@@ -175,22 +181,24 @@ class ResultScreen extends StatelessWidget {
                           ),
                         ],
 
-                        const SizedBox(height: 14),
-                        // What to do
-                        _buildCard(
-                          emoji: _isHealthy ? '✅' : '💊',
-                          title: S.of('what_to_do', lang),
-                          body: _localizedField(isBn, 'treatment'),
-                          highlight: !_isHealthy,
-                        ),
+                        if (_isFish) ...[
+                          const SizedBox(height: 14),
+                          // What to do
+                          _buildCard(
+                            emoji: _isHealthy ? '✅' : '💊',
+                            title: S.of('what_to_do', lang),
+                            body: _localizedField(isBn, 'treatment'),
+                            highlight: !_isHealthy,
+                          ),
 
-                        const SizedBox(height: 14),
-                        // How to prevent
-                        _buildCard(
-                          emoji: '🛡️',
-                          title: S.of('how_to_prevent', lang),
-                          body: _localizedField(isBn, 'prevention'),
-                        ),
+                          const SizedBox(height: 14),
+                          // How to prevent
+                          _buildCard(
+                            emoji: '🛡️',
+                            title: S.of('how_to_prevent', lang),
+                            body: _localizedField(isBn, 'prevention'),
+                          ),
+                        ],
 
                         const SizedBox(height: 24),
 
