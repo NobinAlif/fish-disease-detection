@@ -4,6 +4,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import '../services/api_service.dart';
+import '../l10n/app_language.dart';
+import '../l10n/strings.dart';
 import 'result_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -64,22 +66,27 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF4F8FB),
-      body: _isLoading ? _buildLoading() : _buildHome(),
+    return ValueListenableBuilder<AppLanguage>(
+      valueListenable: appLanguage,
+      builder: (context, lang, _) {
+        return Scaffold(
+          backgroundColor: const Color(0xFFF4F8FB),
+          body: _isLoading ? _buildLoading() : _buildHome(),
+        );
+      },
     );
   }
 
   Widget _buildLoading() {
-    return const Center(
+    return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SpinKitFadingCube(color: Color(0xFF0077B6), size: 50),
-          SizedBox(height: 28),
+          const SpinKitFadingCube(color: Color(0xFF0077B6), size: 50),
+          const SizedBox(height: 28),
           Text(
-            'Checking your fish...',
-            style: TextStyle(
+            S.of('checking'),
+            style: const TextStyle(
                 fontSize: 18,
                 color: Color(0xFF023E8A),
                 fontWeight: FontWeight.w600),
@@ -117,6 +124,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       fontWeight: FontWeight.bold,
                       color: Color(0xFF023E8A)),
                 ),
+                const Spacer(),
+                _buildLangToggle(),
               ],
             ),
 
@@ -138,9 +147,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
             const SizedBox(height: 40),
 
-            const Text(
-              'Take a photo of\nyour fish',
-              style: TextStyle(
+            Text(
+              S.of('title'),
+              style: const TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
                 color: Color(0xFF023E8A),
@@ -148,9 +157,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             const SizedBox(height: 12),
-            const Text(
-              'We will check if it is healthy or sick,\nand tell you what to do.',
-              style: TextStyle(
+            Text(
+              S.of('subtitle'),
+              style: const TextStyle(
                   fontSize: 16, color: Color(0xFF64748B), height: 1.5),
             ),
 
@@ -159,7 +168,7 @@ class _HomeScreenState extends State<HomeScreen> {
             // PRIMARY action — big camera button
             _buildBigButton(
               icon: Icons.camera_alt_rounded,
-              label: 'Open Camera',
+              label: S.of('open_camera'),
               filled: true,
               onTap: () => _pickAndAnalyze(ImageSource.camera),
             ),
@@ -167,7 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
             // SECONDARY action
             _buildBigButton(
               icon: Icons.photo_library_rounded,
-              label: 'Choose from Gallery',
+              label: S.of('choose_gallery'),
               filled: false,
               onTap: () => _pickAndAnalyze(ImageSource.gallery),
             ),
@@ -175,6 +184,46 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 32),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildLangToggle() {
+    Widget segment(String label, AppLanguage value) {
+      final active = appLanguage.value == value;
+      return GestureDetector(
+        onTap: () => appLanguage.value = value,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          decoration: BoxDecoration(
+            color: active ? const Color(0xFF0077B6) : Colors.transparent,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.bold,
+              color: active ? Colors.white : const Color(0xFF64748B),
+            ),
+          ),
+        ),
+      );
+    }
+
+    return Container(
+      padding: const EdgeInsets.all(3),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(13),
+        border: Border.all(color: const Color(0xFFCBD5E1), width: 1),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          segment('EN', AppLanguage.en),
+          segment('বাং', AppLanguage.bn),
+        ],
       ),
     );
   }
